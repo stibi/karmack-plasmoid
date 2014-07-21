@@ -1,5 +1,5 @@
 import QtQuick 1.1
-//import org.kde.plama.core 0.1 as PlasmaCore
+import org.kde.plasma.core 0.1 as PlasmaCore
 
 Column {
     id: screen
@@ -49,6 +49,24 @@ Column {
         //anchors.bottom: parent.bottom
     }
 
+    Text {
+       id: cpuload
+       //anchors { top: flynn.bottom; verticalCenter: parent.verticalCenter }
+       text: ""
+       color: "red"
+    }
+
+    PlasmaCore.DataSource {
+        id: dataSource
+        engine: "systemmonitor"
+        connectedSources: ["cpu/system/TotalLoad"]
+        interval: 1000
+
+        onNewData: {
+            cpuload.text = data.value + " " + data.units
+            //console.log("data.value=" + data.value + "\n" + "data.units=" + data.units)
+        }
+    }
 
     //property int foo: 0
 
@@ -73,17 +91,6 @@ Column {
    //      // flynnimg.source: "plasmapackage:/img/" + soubor;
    //          foo += 1;
    //      }
-
-   //  PlasmaCore.DataSource {
-   //      id: dataSource
-   //      engine: "systemmonitor"
-   //      connectedSources: ["cpu/system/TotalLoad"]
-   //      interval: 1000
-
-   //      onNewData: {
-   //          cpuload.text = data.value + " " + data.units
-   //      }
-   //  }
 
    // Text {
    //     id: test
