@@ -1,17 +1,19 @@
-import QtQuick 1.0
-import org.kde.plasma.core 0.1 as PlasmaCore
+import QtQuick 1.1
+//import org.kde.plama.core 0.1 as PlasmaCore
 
-Item {
+Column {
     id: screen
+    spacing: 2
 
     //width: 490; height: 720
 
     SystemPalette { id: activePalette }
 
-    Column {
+    Row {
 
         id: menicko
-        spacing: parent.width / 30
+        spacing: 1
+        anchors.horizontalCenter: parent.horizontalCenter
 
         Button {
             id: angryMarineButton
@@ -39,8 +41,9 @@ Item {
 
     Marine {
         id: marine
-        anchors.left: menicko.right
-        anchors.leftMargin: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        // anchors.left: menicko.right
+        // anchors.leftMargin: 50
         //anchors.top: menicko.bottom
         //anchors.right: parent.right
         //anchors.bottom: parent.bottom

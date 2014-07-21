@@ -1,6 +1,9 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
-Item {
+Rectangle {
+
+    width: 144
+    height: 174
 
     property int oneTick : 1000
     property int hurt : 0
@@ -16,9 +19,9 @@ Item {
     onHypnoMarine: marineIsHypno()
 
     Image {
-       id: marineImage
-        width: 144
-        height: 174
+        id: marineImage
+        width: parent.width
+        height: parent.height
         source: "plasmapackage:/img/" + getMarineFace("00")
         fillMode: Image.PreserveAspectFit
     }
