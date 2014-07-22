@@ -1,21 +1,20 @@
 [Desktop Entry]
+Encoding=UTF-8
 Name=Hello QML
 Comment=A hello world widget in QML
 Icon=chronometer
+Type=Service
 
-X-Plasma-API=declarativeappletscript
-X-Plasma-MainScript=ui/main.qml
-X-Plasma-DefaultSize=490,720
+X-Plasma-API=python
+X-Plasma-MainScript=code/main.py
 
-X-KDE-PluginInfo-Author=Frederik Gladhorn
-X-KDE-PluginInfo-Email=gladhorn@kde.org
-X-KDE-PluginInfo-Website=http://plasma.kde.org/
-X-KDE-PluginInfo-Category=Examples
-X-KDE-PluginInfo-Name=org.kde.hello-qml
+X-KDE-PluginInfo-Author=Martin Stiborský
+X-KDE-PluginInfo-Email=martin.stiborsky@gmail.com
+X-KDE-PluginInfo-Name=powerchart
 X-KDE-PluginInfo-Version=0.0
-
+X-KDE-PluginInfo-Website=http://todo/
+X-KDE-PluginInfo-Category=Examples
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPL
 X-KDE-PluginInfo-EnabledByDefault=true
 X-KDE-ServiceTypes=Plasma/Applet
-Type=Service
