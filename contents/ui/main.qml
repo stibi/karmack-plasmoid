@@ -86,6 +86,16 @@ Column {
 
         onNewData: {
             cpuload.text = data.value + " " + data.units
+
+            if (data.value > 50) {
+              marine.setHurt(2)
+              marine.stress1()
+            } else {
+              marine.setHurt(0)
+              marine.chillMarine()
+            }
+
+            //data.value > 50 ? marine.stress1() : marine.chillMarine()
             //console.log("data.value=" + data.value + "\n" + "data.units=" + data.units)
         }
     }

@@ -10,11 +10,17 @@ Rectangle {
 
     state: "CHILL"
 
+    signal chillMarine()
     signal angryMarine()
     signal lookingAroundMarine()
     signal hypnoMarine()
+    signal stress1()
     signal windowAdded()
     signal windowRemoved()
+
+    onChillMarine: {
+        state = "CHILL"
+    }
 
     onAngryMarine: {
         state = "ANGRY"
@@ -26,6 +32,10 @@ Rectangle {
 
     onHypnoMarine: {
         state = "HYPNO"
+    }
+
+    onStress1: {
+        state = "STRESS1"
     }
 
     onWindowAdded: {
@@ -46,6 +56,10 @@ Rectangle {
 
     function getRandomTrueFalse() {
         return "true"
+    }
+
+    function setHurt(hurtLevel) {
+        hurt = hurtLevel
     }
 
     function getRandomDuration(maxLength) {
@@ -77,6 +91,10 @@ Rectangle {
         State {
             name: "HYPNO"
             PropertyChanges {target: hypnoAnimation; running: true}
+        },
+        State {
+            name: "STRESS1"
+            PropertyChanges {target: stress1Animation; running: true}
         },
         State {
             name: "WINDOW_ADDED"
@@ -155,5 +173,11 @@ Rectangle {
         loops: Animation.Infinite
         PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("41"); duration: oneTick / 10}
         PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("0"); duration: oneTick / 10}
+    }
+
+    SequentialAnimation {
+        id: stress1Animation
+        loops: Animation.Infinite
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("00"); duration: oneTick}
     }
 }
