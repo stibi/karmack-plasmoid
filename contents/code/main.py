@@ -18,6 +18,8 @@ class Karmack4(plasmascript.Applet):
         plasmascript.Applet.__init__(self, parent)
 
     def init(self):
+        self.applet.resize(480.0, 300.0)
+
         qmlView = Plasma.DeclarativeWidget()
         qmlView.setQmlPath("karmack4/contents/ui/main.qml")
 
