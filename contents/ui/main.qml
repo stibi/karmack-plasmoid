@@ -9,6 +9,21 @@ Column {
 
     SystemPalette { id: activePalette }
 
+    property variant pocitadlo : 0
+
+    function updateQml() {
+      pocitadlo++
+      joujou.text = "Pocitadlo: " + pocitadlo
+    }
+
+    function windowAdded() {
+      marine.windowAdded()
+    }
+
+    function windowRemoved() {
+      marine.windowRemoved()
+    }
+
     Row {
 
         id: menicko
@@ -54,6 +69,13 @@ Column {
        //anchors { top: flynn.bottom; verticalCenter: parent.verticalCenter }
        text: ""
        color: "red"
+    }
+
+    Text {
+       id: joujou
+       //anchors { top: flynn.bottom; verticalCenter: parent.verticalCenter }
+       text: "Pocitadlo: 0"
+       color: "green"
     }
 
     PlasmaCore.DataSource {

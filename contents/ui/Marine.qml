@@ -13,16 +13,34 @@ Rectangle {
     signal angryMarine()
     signal lookingAroundMarine()
     signal hypnoMarine()
+    signal windowAdded()
+    signal windowRemoved()
 
-    onAngryMarine: makeMarineAngry()
-    onLookingAroundMarine: marineIsLookingAround()
-    onHypnoMarine: marineIsHypno()
+    onAngryMarine: {
+        state = "ANGRY"
+    }
+
+    onLookingAroundMarine: {
+        state = "LOOKING_AROUND"
+    }
+
+    onHypnoMarine: {
+        state = "HYPNO"
+    }
+
+    onWindowAdded: {
+        state = "WINDOW_ADDED"
+    }
+
+    onWindowRemoved: {
+        state = "WINDOW_REMOVED"
+    }
 
     Image {
         id: marineImage
         width: parent.width
         height: parent.height
-        source: "plasmapackage:/img/" + getMarineFace("00")
+        source: "../img/" + getMarineFace("00")
         fillMode: Image.PreserveAspectFit
     }
 
@@ -36,22 +54,6 @@ Rectangle {
         var randomDuration = randomNumber * oneTick
         console.log("randomDuration=" + randomDuration)
         return randomDuration
-    }
-
-    function chillingMarine() {
-        state = "CHILL"
-    }
-
-    function makeMarineAngry() {
-        state = "ANGRY"
-    }
-
-    function marineIsLookingAround() {
-        state = "LOOKING_AROUND"
-    }
-
-    function marineIsHypno() {
-        state = "HYPNO"
     }
 
     states: [
@@ -75,6 +77,16 @@ Rectangle {
         State {
             name: "HYPNO"
             PropertyChanges {target: hypnoAnimation; running: true}
+        },
+        State {
+            name: "WINDOW_ADDED"
+            PropertyChanges {target: windowAddedAnimation; running: true}
+            PropertyChanges {target: chillingAnimation; running: true}
+        },
+        State {
+            name: "WINDOW_REMOVED"
+            PropertyChanges {target: windowRemovedAnimation; running: true}
+            PropertyChanges {target: chillingAnimation; running: true}
         }
     ]
 
@@ -86,42 +98,62 @@ Rectangle {
     SequentialAnimation {
         id: blinkLeft
         loops: 1
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("03"); duration: getRandomDuration(3)}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("03"); duration: getRandomDuration(3)}
     }
 
     SequentialAnimation {
         id: blinkRight
         loops: 1
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("04"); duration: getRandomDuration(3)}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("04"); duration: getRandomDuration(3)}
+    }
+
+    SequentialAnimation {
+        id: windowAddedAnimation
+        loops: 1
+        PropertyAnimation {
+            target: marineImage;
+            properties: "source";
+            to: "../img/" + getMarineFace("07");
+            duration: oneTick}
+    }
+
+    SequentialAnimation {
+        id: windowRemovedAnimation
+        loops: 1
+        PropertyAnimation {
+            target: marineImage;
+            properties: "source";
+            to: "../img/" + getMarineFace("06");
+            duration: oneTick}
     }
 
     SequentialAnimation {
         id: chillingAnimation
         loops: Animation.Infinite
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("03"); duration: getRandomDuration(3)}
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("00"); duration: getRandomDuration(3)}
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("04"); duration: getRandomDuration(3)}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("03"); duration: getRandomDuration(3)}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("00"); duration: getRandomDuration(3)}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("04"); duration: getRandomDuration(3)}
     }
 
     SequentialAnimation {
         id: angryAnimation
         loops: Animation.Infinite
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("01"); duration: oneTick}
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("02"); duration: oneTick}
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/" + getMarineFace("05"); duration: oneTick}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("01"); duration: oneTick}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("02"); duration: oneTick}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("05"); duration: oneTick}
     }
 
     SequentialAnimation {
         id: lookingAroundAnimation
         loops: Animation.Infinite
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/15.gif"; duration: oneTick}
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/20.gif"; duration: oneTick}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("03"); duration: oneTick}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("04"); duration: oneTick}
     }
 
     SequentialAnimation {
         id: hypnoAnimation
         loops: Animation.Infinite
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/41.gif"; duration: oneTick / 10}
-        PropertyAnimation {target: marineImage; properties: "source"; to: "plasmapackage:/img/0.gif"; duration: oneTick / 10}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("41"); duration: oneTick / 10}
+        PropertyAnimation {target: marineImage; properties: "source"; to: "../img/" + getMarineFace("0"); duration: oneTick / 10}
     }
 }

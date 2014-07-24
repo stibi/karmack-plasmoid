@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Hello QML
+Name=Karmack4
 Comment=A hello world widget in QML
 Icon=chronometer
 Type=Service
@@ -10,7 +10,7 @@ X-Plasma-MainScript=code/main.py
 
 X-KDE-PluginInfo-Author=Martin Stiborský
 X-KDE-PluginInfo-Email=martin.stiborsky@gmail.com
-X-KDE-PluginInfo-Name=powerchart
+X-KDE-PluginInfo-Name=karmack4
 X-KDE-PluginInfo-Version=0.0
 X-KDE-PluginInfo-Website=http://todo/
 X-KDE-PluginInfo-Category=Examples

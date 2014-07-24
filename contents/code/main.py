@@ -1,41 +1,53 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+import sys
+
+from PyQt4.QtCore import QObject, QUrl, pyqtSignal, SIGNAL, SLOT, Qt, PYQT_VERSION_STR
+from PyQt4.QtGui import QApplication, QGraphicsLinearLayout, QLabel
+from PyQt4 import QtDeclarative
 from PyKDE4.plasma import Plasma
 from PyKDE4 import plasmascript
+from PyKDE4.kdeui import *
 
-class PowerChart(plasmascript.Applet):
+# Kouknout:
+# qmlView.setResizeMode(QDeclarativeView.SizeRootObjectToView)
+# view.setGeometry(100, 100, 400, 240)
+
+class Karmack4(plasmascript.Applet):
     def __init__(self, parent, args=None):
         plasmascript.Applet.__init__(self, parent)
 
     def init(self):
-        self.layout = QGraphicsGridLayout(self.applet)
-        self.chart = Plasma.SignalPlotter(self.applet)
-        self.chart.addPlot(QColor(0,255,0))
-        self.layout.addItem(self.chart, 0, 0)
-        self.setAspectRatioMode(Plasma.IgnoreAspectRatio)
-        self.resize(200, 150)
-        self.setHasConfigurationInterface(False)
-        self.chart.setTitle("Battery Charge")
-        self.connectToEngine()
+        qmlView = Plasma.DeclarativeWidget()
+        qmlView.setQmlPath("karmack4/contents/ui/main.qml")
 
-    def connectToEngine(self):
-        self.engine = self.dataEngine('soliddevice')
-        battery = self.engine.query('IS Battery').values()[0].toString()
-        print "Connecting to battery %s"%battery
-        if not battery:
-            print("you don't appear to have a battery.")
-            [self.chart.addSample([v]) for v in [1,  2,  3,  1]]
-        else:
-            self.engine.connectSource(battery, self)
+        self.layout = QGraphicsLinearLayout(self.applet)
+        self.layout.setOrientation(Qt.Vertical)
+        self.layout.addItem(qmlView)
 
-    @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
-    def dataUpdated(self, sourceName, data):
-        charge = data[QString("Charge Percent")].toInt()[0]
-        print "Charge: %s%%"%charge
-        samples = [charge,]
-        self.chart.addSample(samples)
+        helloLabel = Plasma.Label(self.applet)
+        helloLabel.setText(PYQT_VERSION_STR)
+        self.layout.addItem(helloLabel)
+
+        buttonek = Plasma.PushButton(self.applet)
+        buttonek.setText("Klikni a uvidis!")
+        self.layout.addItem(buttonek)
+
+        self.qmlRootObject = qmlView.rootObject()
+
+        self.connect(buttonek, SIGNAL("clicked()"), self.buttonClicked)
+        self.connect(KWindowSystem.self(), SIGNAL("windowAdded(WId)"), self.onWokynkoNove)
+        self.connect(KWindowSystem.self(), SIGNAL("windowRemoved(WId)"), self.onWokynkoFuc)
+
+    def buttonClicked(self):
+        #print dir(self.qmlRootObject)
+        self.qmlRootObject.updateQml()
+
+    def onWokynkoNove(self):
+        self.qmlRootObject.windowAdded()
+
+    def onWokynkoFuc(self):
+        self.qmlRootObject.windowRemoved()
 
 def CreateApplet(parent):
-    return PowerChart(parent)
+    return Karmack4(parent)
